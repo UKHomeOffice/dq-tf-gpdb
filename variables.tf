@@ -1,0 +1,10 @@
+variable "appsvpc_id" {}
+variable "internal_dashboard_cidr_block" {}
+variable "external_dashboard_cidr_block" {}
+variable "data_ingest_cidr_block" {}
+variable "data_pipe_apps_cidr_block" {}
+variable "data_feeds_cidr_block" {}
+variable "opssubnet_cidr_block" {}
+variable "az" {}
+variable "name_prefix" {}
+variable "dq_database_cidr_block" {}
