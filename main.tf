@@ -13,6 +13,55 @@ resource "aws_subnet" "dq_database" {
   }
 }
 
+module "gpdb_master1" {
+  source          = "github.com/UKHomeOffice/connectivity-tester-tf"
+  subnet_id       = "${aws_subnet.dq_database.id}"
+  user_data       = "CHECK_self=127.0.0.1:8080 CHECK_google=google.com:80 CHECK_googletls=google.com:443 LISTEN_tcp=0.0.0.0:5432"
+  security_groups = ["${aws_security_group.master_sg.id}"]
+}
+
+module "gpdb_master2" {
+  source          = "github.com/UKHomeOffice/connectivity-tester-tf"
+  subnet_id       = "${aws_subnet.dq_database.id}"
+  user_data       = "CHECK_self=127.0.0.1:8080 CHECK_google=google.com:80 CHECK_googletls=google.com:443 LISTEN_tcp=0.0.0.0:5432"
+  security_groups = ["${aws_security_group.master_sg.id}"]
+}
+
+module "gpdb_segment1" {
+  source          = "github.com/UKHomeOffice/connectivity-tester-tf"
+  subnet_id       = "${aws_subnet.dq_database.id}"
+  user_data       = "CHECK_self=127.0.0.1:8080 CHECK_google=google.com:80 CHECK_googletls=google.com:443 LISTEN_tcp=0.0.0.0:5432"
+  security_groups = ["${aws_security_group.segment_sg.id}"]
+}
+
+module "gpdb_segment2" {
+  source          = "github.com/UKHomeOffice/connectivity-tester-tf"
+  subnet_id       = "${aws_subnet.dq_database.id}"
+  user_data       = "CHECK_self=127.0.0.1:8080 CHECK_google=google.com:80 CHECK_googletls=google.com:443 LISTEN_tcp=0.0.0.0:5432"
+  security_groups = ["${aws_security_group.segment_sg.id}"]
+}
+
+module "gpdb_segment3" {
+  source          = "github.com/UKHomeOffice/connectivity-tester-tf"
+  subnet_id       = "${aws_subnet.dq_database.id}"
+  user_data       = "CHECK_self=127.0.0.1:8080 CHECK_google=google.com:80 CHECK_googletls=google.com:443 LISTEN_tcp=0.0.0.0:5432"
+  security_groups = ["${aws_security_group.segment_sg.id}"]
+}
+
+module "gpdb_segment4" {
+  source          = "github.com/UKHomeOffice/connectivity-tester-tf"
+  subnet_id       = "${aws_subnet.dq_database.id}"
+  user_data       = "CHECK_self=127.0.0.1:8080 CHECK_google=google.com:80 CHECK_googletls=google.com:443 LISTEN_tcp=0.0.0.0:5432"
+  security_groups = ["${aws_security_group.segment_sg.id}"]
+}
+
+module "gpdb_segment5" {
+  source          = "github.com/UKHomeOffice/connectivity-tester-tf"
+  subnet_id       = "${aws_subnet.dq_database.id}"
+  user_data       = "CHECK_self=127.0.0.1:8080 CHECK_google=google.com:80 CHECK_googletls=google.com:443 LISTEN_tcp=0.0.0.0:5432"
+  security_groups = ["${aws_security_group.segment_sg.id}"]
+}
+
 resource "aws_security_group" "master_sg" {
   vpc_id = "${var.appsvpc_id}"
 
