@@ -135,8 +135,8 @@ resource "aws_security_group" "segment_sg" {
   }
 
   ingress {
-    from_port   = 0
-    to_port     = 0
+    from_port   = 8
+    to_port     = -1
     protocol    = "icmp"
     cidr_blocks = ["${var.dq_database_cidr_block}"]
   }
