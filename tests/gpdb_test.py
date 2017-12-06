@@ -29,6 +29,13 @@ class TestE2E(unittest.TestCase):
                 data_pipe_apps_cidr_block     = "10.1.8.0/24"
                 data_feeds_cidr_block         = "10.1.4.0/24"
                 opssubnet_cidr_block          = "10.2.0.0/24"
+                gpdb_master1_ip               = "10.1.2.11"
+                gpdb_master2_ip               = "10.1.2.12"
+                gpdb_segment1_ip              = "10.1.2.21"
+                gpdb_segment2_ip              = "10.1.2.22"
+                gpdb_segment3_ip              = "10.1.2.23"
+                gpdb_segment4_ip              = "10.1.2.24"
+                gpdb_segment5_ip              = "10.1.2.25"
                 az                            = "eu-west-2a"
                 name_prefix                   = "dq-"
             }
