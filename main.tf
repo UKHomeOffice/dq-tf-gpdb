@@ -16,49 +16,49 @@ resource "aws_subnet" "dq_database" {
 module "gpdb_master1" {
   source          = "github.com/UKHomeOffice/connectivity-tester-tf"
   subnet_id       = "${aws_subnet.dq_database.id}"
-  user_data       = "CHECK_self=127.0.0.1:8080 CHECK_google=google.com:80 CHECK_googletls=google.com:443 LISTEN_tcp=0.0.0.0:5432"
+  user_data       = "CHECK_self=127.0.0.1:8080 CHECK_google=google.com:80 CHECK_googletls=google.com:443 LISTEN_tcp=0.0.0.0:5432 LISTEN_tcp2=0.0.0.0:9000 LISTEN_tcp3=0.0.0.0:22 LISTEN_tcp4=0.0.0.0:28090"
   security_groups = ["${aws_security_group.master_sg.id}"]
 }
 
 module "gpdb_master2" {
   source          = "github.com/UKHomeOffice/connectivity-tester-tf"
   subnet_id       = "${aws_subnet.dq_database.id}"
-  user_data       = "CHECK_self=127.0.0.1:8080 CHECK_google=google.com:80 CHECK_googletls=google.com:443 LISTEN_tcp=0.0.0.0:5432"
+  user_data       = "CHECK_self=127.0.0.1:8080 CHECK_google=google.com:80 CHECK_googletls=google.com:443 LISTEN_tcp=0.0.0.0:5432 LISTEN_tcp2=0.0.0.0:9000 LISTEN_tcp3=0.0.0.0:22 LISTEN_tcp4=0.0.0.0:28090"
   security_groups = ["${aws_security_group.master_sg.id}"]
 }
 
 module "gpdb_segment1" {
   source          = "github.com/UKHomeOffice/connectivity-tester-tf"
   subnet_id       = "${aws_subnet.dq_database.id}"
-  user_data       = "CHECK_self=127.0.0.1:8080 CHECK_google=google.com:80 CHECK_googletls=google.com:443 LISTEN_tcp=0.0.0.0:5432"
+  user_data       = "CHECK_self=127.0.0.1:8080 CHECK_google=google.com:80 CHECK_googletls=google.com:443 LISTEN_tcp=0.0.0.0:1024 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000"
   security_groups = ["${aws_security_group.segment_sg.id}"]
 }
 
 module "gpdb_segment2" {
   source          = "github.com/UKHomeOffice/connectivity-tester-tf"
   subnet_id       = "${aws_subnet.dq_database.id}"
-  user_data       = "CHECK_self=127.0.0.1:8080 CHECK_google=google.com:80 CHECK_googletls=google.com:443 LISTEN_tcp=0.0.0.0:5432"
+  user_data       = "CHECK_self=127.0.0.1:8080 CHECK_google=google.com:80 CHECK_googletls=google.com:443 LISTEN_tcp=0.0.0.0:1024 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000"
   security_groups = ["${aws_security_group.segment_sg.id}"]
 }
 
 module "gpdb_segment3" {
   source          = "github.com/UKHomeOffice/connectivity-tester-tf"
   subnet_id       = "${aws_subnet.dq_database.id}"
-  user_data       = "CHECK_self=127.0.0.1:8080 CHECK_google=google.com:80 CHECK_googletls=google.com:443 LISTEN_tcp=0.0.0.0:5432"
+  user_data       = "CHECK_self=127.0.0.1:8080 CHECK_google=google.com:80 CHECK_googletls=google.com:443 LISTEN_tcp=0.0.0.0:1024 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000"
   security_groups = ["${aws_security_group.segment_sg.id}"]
 }
 
 module "gpdb_segment4" {
   source          = "github.com/UKHomeOffice/connectivity-tester-tf"
   subnet_id       = "${aws_subnet.dq_database.id}"
-  user_data       = "CHECK_self=127.0.0.1:8080 CHECK_google=google.com:80 CHECK_googletls=google.com:443 LISTEN_tcp=0.0.0.0:5432"
+  user_data       = "CHECK_self=127.0.0.1:8080 CHECK_google=google.com:80 CHECK_googletls=google.com:443 LISTEN_tcp=0.0.0.0:1024 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000"
   security_groups = ["${aws_security_group.segment_sg.id}"]
 }
 
 module "gpdb_segment5" {
   source          = "github.com/UKHomeOffice/connectivity-tester-tf"
   subnet_id       = "${aws_subnet.dq_database.id}"
-  user_data       = "CHECK_self=127.0.0.1:8080 CHECK_google=google.com:80 CHECK_googletls=google.com:443 LISTEN_tcp=0.0.0.0:5432"
+  user_data       = "CHECK_self=127.0.0.1:8080 CHECK_google=google.com:80 CHECK_googletls=google.com:443 LISTEN_tcp=0.0.0.0:1024 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000"
   security_groups = ["${aws_security_group.segment_sg.id}"]
 }
 
@@ -121,8 +121,22 @@ resource "aws_security_group" "segment_sg" {
   }
 
   ingress {
-    from_port   = 0
-    to_port     = 65535
+    from_port   = 1024
+    to_port     = 1024
+    protocol    = "tcp"
+    cidr_blocks = ["${var.dq_database_cidr_block}"]
+  }
+
+  ingress {
+    from_port   = 10000
+    to_port     = 10000
+    protocol    = "tcp"
+    cidr_blocks = ["${var.dq_database_cidr_block}"]
+  }
+
+  ingress {
+    from_port   = 20000
+    to_port     = 20000
     protocol    = "tcp"
     cidr_blocks = ["${var.dq_database_cidr_block}"]
   }
