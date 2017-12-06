@@ -16,7 +16,7 @@ resource "aws_subnet" "dq_database" {
 module "gpdb_master1" {
   source          = "github.com/UKHomeOffice/connectivity-tester-tf"
   subnet_id       = "${aws_subnet.dq_database.id}"
-  user_data       = "LISTEN_tcp=0.0.0.0:5432 LISTEN_tcp2=0.0.0.0:9000 LISTEN_tcp4=0.0.0.0:28090 CHECK_segment1:${var.gpdb_segment1_ip}:1024 CHECK_segment1:${var.gpdb_segment1_ip}:10000 CHECK_segment1:${var.gpdb_segment1_ip}:20000 CHECK_segment2:${var.gpdb_segment2_ip}:1024 CHECK_segment2:${var.gpdb_segment2_ip}:10000 CHECK_segment2:${var.gpdb_segment2_ip}:20000 CHECK_segment3:${var.gpdb_segment3_ip}:1024 CHECK_segment3:${var.gpdb_segment3_ip}:10000 CHECK_segment3:${var.gpdb_segment3_ip}:20000 CHECK_segment4:${var.gpdb_segment4_ip}:1024 CHECK_segment4:${var.gpdb_segment4_ip}:10000 CHECK_segment4:${var.gpdb_segment4_ip}:20000 CHECK_segment5:${var.gpdb_segment5_ip}:1024 CHECK_segment5:${var.gpdb_segment5_ip}:10000 CHECK_segment5:${var.gpdb_segment5_ip}:20000"
+  user_data       = "LISTEN_tcp=0.0.0.0:5432 LISTEN_tcp2=0.0.0.0:9000 LISTEN_tcp4=0.0.0.0:28090 CHECK_segment1:${var.gpdb_segment1_ip}:1025 CHECK_segment1:${var.gpdb_segment1_ip}:10000 CHECK_segment1:${var.gpdb_segment1_ip}:20000 CHECK_segment2:${var.gpdb_segment2_ip}:1025 CHECK_segment2:${var.gpdb_segment2_ip}:10000 CHECK_segment2:${var.gpdb_segment2_ip}:20000 CHECK_segment3:${var.gpdb_segment3_ip}:1025 CHECK_segment3:${var.gpdb_segment3_ip}:10000 CHECK_segment3:${var.gpdb_segment3_ip}:20000 CHECK_segment4:${var.gpdb_segment4_ip}:1025 CHECK_segment4:${var.gpdb_segment4_ip}:10000 CHECK_segment4:${var.gpdb_segment4_ip}:20000 CHECK_segment5:${var.gpdb_segment5_ip}:1025 CHECK_segment5:${var.gpdb_segment5_ip}:10000 CHECK_segment5:${var.gpdb_segment5_ip}:20000"
   security_groups = ["${aws_security_group.master_sg.id}"]
   private_ip      = "${var.gpdb_master1_ip}"
 }
@@ -24,7 +24,7 @@ module "gpdb_master1" {
 module "gpdb_master2" {
   source          = "github.com/UKHomeOffice/connectivity-tester-tf"
   subnet_id       = "${aws_subnet.dq_database.id}"
-  user_data       = "LISTEN_tcp=0.0.0.0:5432 LISTEN_tcp2=0.0.0.0:9000 LISTEN_tcp4=0.0.0.0:28090 CHECK_segment1:${var.gpdb_segment1_ip}:1024 CHECK_segment1:${var.gpdb_segment1_ip}:10000 CHECK_segment1:${var.gpdb_segment1_ip}:20000 CHECK_segment2:${var.gpdb_segment2_ip}:1024 CHECK_segment2:${var.gpdb_segment2_ip}:10000 CHECK_segment2:${var.gpdb_segment2_ip}:20000 CHECK_segment3:${var.gpdb_segment3_ip}:1024 CHECK_segment3:${var.gpdb_segment3_ip}:10000 CHECK_segment3:${var.gpdb_segment3_ip}:20000 CHECK_segment4:${var.gpdb_segment4_ip}:1024 CHECK_segment4:${var.gpdb_segment4_ip}:10000 CHECK_segment4:${var.gpdb_segment4_ip}:20000 CHECK_segment5:${var.gpdb_segment5_ip}:1024 CHECK_segment5:${var.gpdb_segment5_ip}:10000 CHECK_segment5:${var.gpdb_segment5_ip}:20000"
+  user_data       = "LISTEN_tcp=0.0.0.0:5432 LISTEN_tcp2=0.0.0.0:9000 LISTEN_tcp4=0.0.0.0:28090 CHECK_segment1:${var.gpdb_segment1_ip}:1025 CHECK_segment1:${var.gpdb_segment1_ip}:10000 CHECK_segment1:${var.gpdb_segment1_ip}:20000 CHECK_segment2:${var.gpdb_segment2_ip}:1025 CHECK_segment2:${var.gpdb_segment2_ip}:10000 CHECK_segment2:${var.gpdb_segment2_ip}:20000 CHECK_segment3:${var.gpdb_segment3_ip}:1025 CHECK_segment3:${var.gpdb_segment3_ip}:10000 CHECK_segment3:${var.gpdb_segment3_ip}:20000 CHECK_segment4:${var.gpdb_segment4_ip}:1025 CHECK_segment4:${var.gpdb_segment4_ip}:10000 CHECK_segment4:${var.gpdb_segment4_ip}:20000 CHECK_segment5:${var.gpdb_segment5_ip}:1025 CHECK_segment5:${var.gpdb_segment5_ip}:10000 CHECK_segment5:${var.gpdb_segment5_ip}:20000"
   security_groups = ["${aws_security_group.master_sg.id}"]
   private_ip      = "${var.gpdb_master2_ip}"
 }
@@ -32,7 +32,7 @@ module "gpdb_master2" {
 module "gpdb_segment1" {
   source          = "github.com/UKHomeOffice/connectivity-tester-tf"
   subnet_id       = "${aws_subnet.dq_database.id}"
-  user_data       = "LISTEN_tcp=0.0.0.0:1024 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000 CHECK_master1=${var.gpdb_master1_ip}:9000 CHECK_master2=${var.gpdb_master2_ip}:9000"
+  user_data       = "LISTEN_tcp=0.0.0.0:1025 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000 CHECK_master1=${var.gpdb_master1_ip}:9000 CHECK_master2=${var.gpdb_master2_ip}:9000"
   security_groups = ["${aws_security_group.segment_sg.id}"]
   private_ip      = "${var.gpdb_segment1_ip}"
 }
@@ -40,7 +40,7 @@ module "gpdb_segment1" {
 module "gpdb_segment2" {
   source          = "github.com/UKHomeOffice/connectivity-tester-tf"
   subnet_id       = "${aws_subnet.dq_database.id}"
-  user_data       = "LISTEN_tcp=0.0.0.0:1024 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000 CHECK_master1=${var.gpdb_master1_ip}:9000 CHECK_master2=${var.gpdb_master2_ip}:9000"
+  user_data       = "LISTEN_tcp=0.0.0.0:1025 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000 CHECK_master1=${var.gpdb_master1_ip}:9000 CHECK_master2=${var.gpdb_master2_ip}:9000"
   security_groups = ["${aws_security_group.segment_sg.id}"]
   private_ip      = "${var.gpdb_segment2_ip}"
 }
@@ -48,7 +48,7 @@ module "gpdb_segment2" {
 module "gpdb_segment3" {
   source          = "github.com/UKHomeOffice/connectivity-tester-tf"
   subnet_id       = "${aws_subnet.dq_database.id}"
-  user_data       = "LISTEN_tcp=0.0.0.0:1024 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000 CHECK_master1=${var.gpdb_master1_ip}:9000 CHECK_master2=${var.gpdb_master2_ip}:9000"
+  user_data       = "LISTEN_tcp=0.0.0.0:1025 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000 CHECK_master1=${var.gpdb_master1_ip}:9000 CHECK_master2=${var.gpdb_master2_ip}:9000"
   security_groups = ["${aws_security_group.segment_sg.id}"]
   private_ip      = "${var.gpdb_segment3_ip}"
 }
@@ -56,7 +56,7 @@ module "gpdb_segment3" {
 module "gpdb_segment4" {
   source          = "github.com/UKHomeOffice/connectivity-tester-tf"
   subnet_id       = "${aws_subnet.dq_database.id}"
-  user_data       = "LISTEN_tcp=0.0.0.0:1024 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000 CHECK_master1=${var.gpdb_master1_ip}:9000 CHECK_master2=${var.gpdb_master2_ip}:9000"
+  user_data       = "LISTEN_tcp=0.0.0.0:1025 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000 CHECK_master1=${var.gpdb_master1_ip}:9000 CHECK_master2=${var.gpdb_master2_ip}:9000"
   security_groups = ["${aws_security_group.segment_sg.id}"]
   private_ip      = "${var.gpdb_segment4_ip}"
 }
@@ -64,7 +64,7 @@ module "gpdb_segment4" {
 module "gpdb_segment5" {
   source          = "github.com/UKHomeOffice/connectivity-tester-tf"
   subnet_id       = "${aws_subnet.dq_database.id}"
-  user_data       = "LISTEN_tcp=0.0.0.0:1024 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000 CHECK_master1=${var.gpdb_master1_ip}:9000 CHECK_master2=${var.gpdb_master2_ip}:9000"
+  user_data       = "LISTEN_tcp=0.0.0.0:1025 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000 CHECK_master1=${var.gpdb_master1_ip}:9000 CHECK_master2=${var.gpdb_master2_ip}:9000"
   security_groups = ["${aws_security_group.segment_sg.id}"]
   private_ip      = "${var.gpdb_segment5_ip}"
 }
@@ -129,28 +129,14 @@ resource "aws_security_group" "segment_sg" {
   }
 
   ingress {
-    from_port   = 1024
-    to_port     = 1024
+    from_port   = 1025
+    to_port     = 65535
     protocol    = "tcp"
     cidr_blocks = ["${var.dq_database_cidr_block}"]
   }
 
   ingress {
-    from_port   = 10000
-    to_port     = 10000
-    protocol    = "tcp"
-    cidr_blocks = ["${var.dq_database_cidr_block}"]
-  }
-
-  ingress {
-    from_port   = 20000
-    to_port     = 20000
-    protocol    = "tcp"
-    cidr_blocks = ["${var.dq_database_cidr_block}"]
-  }
-
-  ingress {
-    from_port   = 0
+    from_port   = 1025
     to_port     = 65535
     protocol    = "udp"
     cidr_blocks = ["${var.dq_database_cidr_block}"]
