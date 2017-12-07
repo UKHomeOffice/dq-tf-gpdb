@@ -13,6 +13,11 @@ resource "aws_subnet" "dq_database" {
   }
 }
 
+resource "aws_route_table_association" "dq_database_rt_association" {
+  subnet_id      = "${aws_subnet.dq_database.id}"
+  route_table_id = "${var.route_table_id}"
+}
+
 module "gpdb_master1" {
   source          = "github.com/UKHomeOffice/connectivity-tester-tf"
   subnet_id       = "${aws_subnet.dq_database.id}"

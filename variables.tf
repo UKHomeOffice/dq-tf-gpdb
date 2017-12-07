@@ -9,6 +9,11 @@ variable "az" {}
 variable "name_prefix" {}
 variable "dq_database_cidr_block" {}
 
+variable "route_table_id" {
+  default     = false
+  description = "Value obtained from Apps module"
+}
+
 variable "gpdb_master1_ip" {
   default     = "10.1.2.11"
   description = "Mock private IP for Master host."
