@@ -146,10 +146,11 @@ resource "aws_security_group" "master_sg" {
   }
 
   ingress {
-    from_port       = 9000
-    to_port         = 9000
-    protocol        = "tcp"
-    cidr_blocks     = [
+    from_port = 9000
+    to_port   = 9000
+    protocol  = "tcp"
+
+    cidr_blocks = [
       "${var.opssubnet_cidr_block}",
       "${var.dq_database_cidr_block}",
     ]
