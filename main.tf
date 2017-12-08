@@ -24,6 +24,13 @@ module "gpdb_master1" {
   user_data       = "LISTEN_tcp=0.0.0.0:5432 LISTEN_tcp2=0.0.0.0:9000 LISTEN_tcp4=0.0.0.0:28090 CHECK_segment1:${var.gpdb_segment1_ip}:1025 CHECK_segment1:${var.gpdb_segment1_ip}:10000 CHECK_segment1:${var.gpdb_segment1_ip}:20000 CHECK_segment2:${var.gpdb_segment2_ip}:1025 CHECK_segment2:${var.gpdb_segment2_ip}:10000 CHECK_segment2:${var.gpdb_segment2_ip}:20000 CHECK_segment3:${var.gpdb_segment3_ip}:1025 CHECK_segment3:${var.gpdb_segment3_ip}:10000 CHECK_segment3:${var.gpdb_segment3_ip}:20000 CHECK_segment4:${var.gpdb_segment4_ip}:1025 CHECK_segment4:${var.gpdb_segment4_ip}:10000 CHECK_segment4:${var.gpdb_segment4_ip}:20000 CHECK_segment5:${var.gpdb_segment5_ip}:1025 CHECK_segment5:${var.gpdb_segment5_ip}:10000 CHECK_segment5:${var.gpdb_segment5_ip}:20000"
   security_groups = ["${aws_security_group.master_sg.id}"]
   private_ip      = "${var.gpdb_master1_ip}"
+
+  tags = {
+    Name             = "ec2-${var.service}-greenplum-master1-${var.environment}"
+    Service          = "${var.service}"
+    Environment      = "${var.environment}"
+    EnvironmentGroup = "${var.environment_group}"
+  }
 }
 
 module "gpdb_master2" {
@@ -32,6 +39,13 @@ module "gpdb_master2" {
   user_data       = "LISTEN_tcp=0.0.0.0:5432 LISTEN_tcp2=0.0.0.0:9000 LISTEN_tcp4=0.0.0.0:28090 CHECK_segment1:${var.gpdb_segment1_ip}:1025 CHECK_segment1:${var.gpdb_segment1_ip}:10000 CHECK_segment1:${var.gpdb_segment1_ip}:20000 CHECK_segment2:${var.gpdb_segment2_ip}:1025 CHECK_segment2:${var.gpdb_segment2_ip}:10000 CHECK_segment2:${var.gpdb_segment2_ip}:20000 CHECK_segment3:${var.gpdb_segment3_ip}:1025 CHECK_segment3:${var.gpdb_segment3_ip}:10000 CHECK_segment3:${var.gpdb_segment3_ip}:20000 CHECK_segment4:${var.gpdb_segment4_ip}:1025 CHECK_segment4:${var.gpdb_segment4_ip}:10000 CHECK_segment4:${var.gpdb_segment4_ip}:20000 CHECK_segment5:${var.gpdb_segment5_ip}:1025 CHECK_segment5:${var.gpdb_segment5_ip}:10000 CHECK_segment5:${var.gpdb_segment5_ip}:20000"
   security_groups = ["${aws_security_group.master_sg.id}"]
   private_ip      = "${var.gpdb_master2_ip}"
+
+  tags = {
+    Name             = "ec2-${var.service}-greenplum-master2-${var.environment}"
+    Service          = "${var.service}"
+    Environment      = "${var.environment}"
+    EnvironmentGroup = "${var.environment_group}"
+  }
 }
 
 module "gpdb_segment1" {
@@ -40,6 +54,13 @@ module "gpdb_segment1" {
   user_data       = "LISTEN_tcp=0.0.0.0:1025 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000 CHECK_master1=${var.gpdb_master1_ip}:9000 CHECK_master2=${var.gpdb_master2_ip}:9000"
   security_groups = ["${aws_security_group.segment_sg.id}"]
   private_ip      = "${var.gpdb_segment1_ip}"
+
+  tags = {
+    Name             = "ec2-${var.service}-greenplum-segment1-${var.environment}"
+    Service          = "${var.service}"
+    Environment      = "${var.environment}"
+    EnvironmentGroup = "${var.environment_group}"
+  }
 }
 
 module "gpdb_segment2" {
@@ -48,6 +69,13 @@ module "gpdb_segment2" {
   user_data       = "LISTEN_tcp=0.0.0.0:1025 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000 CHECK_master1=${var.gpdb_master1_ip}:9000 CHECK_master2=${var.gpdb_master2_ip}:9000"
   security_groups = ["${aws_security_group.segment_sg.id}"]
   private_ip      = "${var.gpdb_segment2_ip}"
+
+  tags = {
+    Name             = "ec2-${var.service}-greenplum-segment2-${var.environment}"
+    Service          = "${var.service}"
+    Environment      = "${var.environment}"
+    EnvironmentGroup = "${var.environment_group}"
+  }
 }
 
 module "gpdb_segment3" {
@@ -56,6 +84,13 @@ module "gpdb_segment3" {
   user_data       = "LISTEN_tcp=0.0.0.0:1025 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000 CHECK_master1=${var.gpdb_master1_ip}:9000 CHECK_master2=${var.gpdb_master2_ip}:9000"
   security_groups = ["${aws_security_group.segment_sg.id}"]
   private_ip      = "${var.gpdb_segment3_ip}"
+
+  tags = {
+    Name             = "ec2-${var.service}-greenplum-segment3-${var.environment}"
+    Service          = "${var.service}"
+    Environment      = "${var.environment}"
+    EnvironmentGroup = "${var.environment_group}"
+  }
 }
 
 module "gpdb_segment4" {
@@ -64,6 +99,13 @@ module "gpdb_segment4" {
   user_data       = "LISTEN_tcp=0.0.0.0:1025 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000 CHECK_master1=${var.gpdb_master1_ip}:9000 CHECK_master2=${var.gpdb_master2_ip}:9000"
   security_groups = ["${aws_security_group.segment_sg.id}"]
   private_ip      = "${var.gpdb_segment4_ip}"
+
+  tags = {
+    Name             = "ec2-${var.service}-greenplum-segment4-${var.environment}"
+    Service          = "${var.service}"
+    Environment      = "${var.environment}"
+    EnvironmentGroup = "${var.environment_group}"
+  }
 }
 
 module "gpdb_segment5" {
@@ -72,6 +114,13 @@ module "gpdb_segment5" {
   user_data       = "LISTEN_tcp=0.0.0.0:1025 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000 CHECK_master1=${var.gpdb_master1_ip}:9000 CHECK_master2=${var.gpdb_master2_ip}:9000"
   security_groups = ["${aws_security_group.segment_sg.id}"]
   private_ip      = "${var.gpdb_segment5_ip}"
+
+  tags = {
+    Name             = "ec2-${var.service}-greenplum-segment5-${var.environment}"
+    Service          = "${var.service}"
+    Environment      = "${var.environment}"
+    EnvironmentGroup = "${var.environment_group}"
+  }
 }
 
 resource "aws_security_group" "master_sg" {
