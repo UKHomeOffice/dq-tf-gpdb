@@ -29,6 +29,7 @@ class TestE2E(unittest.TestCase):
                 data_pipe_apps_cidr_block     = "10.1.8.0/24"
                 data_feeds_cidr_block         = "10.1.4.0/24"
                 opssubnet_cidr_block          = "10.2.0.0/24"
+                peering_cidr_block            = "1.1.1.0/24"
                 gpdb_master1_ip               = "10.1.2.11"
                 gpdb_master2_ip               = "10.1.2.12"
                 gpdb_segment1_ip              = "10.1.2.21"
