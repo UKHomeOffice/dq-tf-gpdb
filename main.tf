@@ -142,6 +142,7 @@ resource "aws_security_group" "master_sg" {
       "${var.data_pipe_apps_cidr_block}",
       "${var.data_feeds_cidr_block}",
       "${var.opssubnet_cidr_block}",
+      "${var.peering_cidr_block}",
     ]
   }
 
@@ -153,21 +154,30 @@ resource "aws_security_group" "master_sg" {
     cidr_blocks = [
       "${var.opssubnet_cidr_block}",
       "${var.dq_database_cidr_block}",
+      "${var.peering_cidr_block}",
     ]
   }
 
   ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["${var.opssubnet_cidr_block}"]
+    from_port = 22
+    to_port   = 22
+    protocol  = "tcp"
+
+    cidr_blocks = [
+      "${var.opssubnet_cidr_block}",
+      "${var.peering_cidr_block}",
+    ]
   }
 
   ingress {
-    from_port   = 28090
-    to_port     = 28090
-    protocol    = "tcp"
-    cidr_blocks = ["${var.opssubnet_cidr_block}"]
+    from_port = 28090
+    to_port   = 28090
+    protocol  = "tcp"
+
+    cidr_blocks = [
+      "${var.opssubnet_cidr_block}",
+      "${var.peering_cidr_block}",
+    ]
   }
 
   egress {
