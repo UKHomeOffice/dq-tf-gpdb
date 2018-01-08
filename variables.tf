@@ -7,8 +7,12 @@ variable "data_feeds_cidr_block" {}
 variable "opssubnet_cidr_block" {}
 variable "peering_cidr_block" {}
 variable "az" {}
-variable "name_prefix" {}
 variable "dq_database_cidr_block" {}
+
+variable "naming_suffix" {
+  default     = false
+  description = "Naming suffix for tags, value passed from dq-tf-apps"
+}
 
 variable "route_table_id" {
   default     = false
@@ -48,19 +52,4 @@ variable "gpdb_segment4_ip" {
 variable "gpdb_segment5_ip" {
   default     = "10.1.2.25"
   description = "Mock private IP for segment hosts."
-}
-
-variable "service" {
-  default     = "dq-data-quality-db"
-  description = "As per naming standards in AWS-DQ-Network-Routing 0.5 document"
-}
-
-variable "environment" {
-  default     = "preprod"
-  description = "As per naming standards in AWS-DQ-Network-Routing 0.5 document"
-}
-
-variable "environment_group" {
-  default     = "dq-apps"
-  description = "As per naming standards in AWS-DQ-Network-Routing 0.5 document"
 }

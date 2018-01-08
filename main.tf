@@ -1,5 +1,5 @@
 locals {
-  name_prefix = "${var.name_prefix}apps-gpdb-"
+  naming_suffix = "gpdb-${var.naming_suffix}"
 }
 
 resource "aws_subnet" "dq_database" {
@@ -9,7 +9,7 @@ resource "aws_subnet" "dq_database" {
   availability_zone       = "${var.az}"
 
   tags {
-    Name = "${local.name_prefix}subnet"
+    Name = "subnet-${local.naming_suffix}"
   }
 }
 
@@ -26,10 +26,7 @@ module "gpdb_master1" {
   private_ip      = "${var.gpdb_master1_ip}"
 
   tags = {
-    Name             = "ec2-${var.service}-greenplum-master1-${var.environment}"
-    Service          = "${var.service}"
-    Environment      = "${var.environment}"
-    EnvironmentGroup = "${var.environment_group}"
+    Name = "gpdb-master1-${local.naming_suffix}"
   }
 }
 
@@ -41,10 +38,7 @@ module "gpdb_master2" {
   private_ip      = "${var.gpdb_master2_ip}"
 
   tags = {
-    Name             = "ec2-${var.service}-greenplum-master2-${var.environment}"
-    Service          = "${var.service}"
-    Environment      = "${var.environment}"
-    EnvironmentGroup = "${var.environment_group}"
+    Name = "gpdb-master2-${local.naming_suffix}"
   }
 }
 
@@ -56,10 +50,7 @@ module "gpdb_segment1" {
   private_ip      = "${var.gpdb_segment1_ip}"
 
   tags = {
-    Name             = "ec2-${var.service}-greenplum-segment1-${var.environment}"
-    Service          = "${var.service}"
-    Environment      = "${var.environment}"
-    EnvironmentGroup = "${var.environment_group}"
+    Name = "gpdb-segment1-${local.naming_suffix}"
   }
 }
 
@@ -71,10 +62,7 @@ module "gpdb_segment2" {
   private_ip      = "${var.gpdb_segment2_ip}"
 
   tags = {
-    Name             = "ec2-${var.service}-greenplum-segment2-${var.environment}"
-    Service          = "${var.service}"
-    Environment      = "${var.environment}"
-    EnvironmentGroup = "${var.environment_group}"
+    Name = "gpdb-segment2-${local.naming_suffix}"
   }
 }
 
@@ -86,10 +74,7 @@ module "gpdb_segment3" {
   private_ip      = "${var.gpdb_segment3_ip}"
 
   tags = {
-    Name             = "ec2-${var.service}-greenplum-segment3-${var.environment}"
-    Service          = "${var.service}"
-    Environment      = "${var.environment}"
-    EnvironmentGroup = "${var.environment_group}"
+    Name = "gpdb-segment3-${local.naming_suffix}"
   }
 }
 
@@ -101,10 +86,7 @@ module "gpdb_segment4" {
   private_ip      = "${var.gpdb_segment4_ip}"
 
   tags = {
-    Name             = "ec2-${var.service}-greenplum-segment4-${var.environment}"
-    Service          = "${var.service}"
-    Environment      = "${var.environment}"
-    EnvironmentGroup = "${var.environment_group}"
+    Name = "gpdb-segment4-${local.naming_suffix}"
   }
 }
 
@@ -116,10 +98,7 @@ module "gpdb_segment5" {
   private_ip      = "${var.gpdb_segment5_ip}"
 
   tags = {
-    Name             = "ec2-${var.service}-greenplum-segment5-${var.environment}"
-    Service          = "${var.service}"
-    Environment      = "${var.environment}"
-    EnvironmentGroup = "${var.environment_group}"
+    Name = "gpdb-segment5-${local.naming_suffix}"
   }
 }
 
@@ -127,7 +106,7 @@ resource "aws_security_group" "master_sg" {
   vpc_id = "${var.appsvpc_id}"
 
   tags {
-    Name = "${local.name_prefix}master-sg"
+    Name = "sg-master-${local.naming_suffix}"
   }
 
   ingress {
@@ -192,7 +171,7 @@ resource "aws_security_group" "segment_sg" {
   vpc_id = "${var.appsvpc_id}"
 
   tags {
-    Name = "${local.name_prefix}segment-sg"
+    Name = "sg-segment-${local.naming_suffix}"
   }
 
   ingress {
