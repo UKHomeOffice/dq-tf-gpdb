@@ -62,7 +62,7 @@ resource "aws_security_group" "master_sg" {
 
     cidr_blocks = [
       "${var.opssubnet_cidr_block}",
-      "${var.dq_database_cidr_block}",
+      "${aws_subnet.subnets.*.cidr_block}",
       "${var.peering_cidr_block}",
     ]
   }
@@ -113,7 +113,7 @@ resource "aws_security_group" "segment_sg" {
     protocol  = "tcp"
 
     cidr_blocks = [
-      "${var.dq_database_cidr_block}",
+      "${aws_subnet.subnets.*.cidr_block}",
     ]
   }
 
@@ -123,7 +123,7 @@ resource "aws_security_group" "segment_sg" {
     protocol  = "udp"
 
     cidr_blocks = [
-      "${var.dq_database_cidr_block}",
+      "${aws_subnet.subnets.*.cidr_block}",
     ]
   }
 
@@ -133,7 +133,7 @@ resource "aws_security_group" "segment_sg" {
     protocol  = "icmp"
 
     cidr_blocks = [
-      "${var.dq_database_cidr_block}",
+      "${aws_subnet.subnets.*.cidr_block}",
     ]
   }
 
