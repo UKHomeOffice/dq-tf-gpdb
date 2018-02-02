@@ -1,12 +1,16 @@
 locals {
-  naming_suffix = "gpdb-${var.naming_suffix}"
+  naming_suffix  = "gpdb-${var.naming_suffix}"
+  master_count   = 2
+  segment_count  = 3
+  instance_count = "${local.master_count + local.segment_count}"
 }
 
-resource "aws_subnet" "dq_database" {
+resource "aws_subnet" "subnets" {
   vpc_id                  = "${var.appsvpc_id}"
-  cidr_block              = "${var.dq_database_cidr_block}"
   map_public_ip_on_launch = false
   availability_zone       = "${var.az}"
+  count                   = 4
+  cidr_block              = "10.1.${count.index + 25}.0/24"
 
   tags {
     Name = "subnet-${local.naming_suffix}"
@@ -14,92 +18,18 @@ resource "aws_subnet" "dq_database" {
 }
 
 resource "aws_route_table_association" "dq_database_rt_association" {
-  subnet_id      = "${aws_subnet.dq_database.id}"
+  subnet_id      = "${aws_subnet.subnets.0.id}"
   route_table_id = "${var.route_table_id}"
 }
 
-module "gpdb_master1" {
-  source          = "github.com/UKHomeOffice/connectivity-tester-tf"
-  subnet_id       = "${aws_subnet.dq_database.id}"
-  user_data       = "LISTEN_tcp=0.0.0.0:5432 LISTEN_tcp2=0.0.0.0:9000 LISTEN_tcp4=0.0.0.0:28090 CHECK_segment1=${var.gpdb_segment1_ip}:1025 CHECK_segment1=${var.gpdb_segment1_ip}:10000 CHECK_segment1=${var.gpdb_segment1_ip}:20000 CHECK_segment2=${var.gpdb_segment2_ip}:1025 CHECK_segment2=${var.gpdb_segment2_ip}:10000 CHECK_segment2=${var.gpdb_segment2_ip}:20000 CHECK_segment3=${var.gpdb_segment3_ip}:1025 CHECK_segment3=${var.gpdb_segment3_ip}:10000 CHECK_segment3=${var.gpdb_segment3_ip}:20000 CHECK_segment4=${var.gpdb_segment4_ip}:1025 CHECK_segment4=${var.gpdb_segment4_ip}:10000 CHECK_segment4=${var.gpdb_segment4_ip}:20000 CHECK_segment5=${var.gpdb_segment5_ip}:1025 CHECK_segment5=${var.gpdb_segment5_ip}:10000 CHECK_segment5=${var.gpdb_segment5_ip}:20000"
-  security_groups = ["${aws_security_group.master_sg.id}"]
-  private_ip      = "${var.gpdb_master1_ip}"
-
-  tags = {
-    Name = "gpdb-master1-${local.naming_suffix}"
-  }
+resource "random_string" "aws_placement_group" {
+  length  = 8
+  special = false
 }
 
-module "gpdb_master2" {
-  source          = "github.com/UKHomeOffice/connectivity-tester-tf"
-  subnet_id       = "${aws_subnet.dq_database.id}"
-  user_data       = "LISTEN_tcp=0.0.0.0:5432 LISTEN_tcp2=0.0.0.0:9000 LISTEN_tcp4=0.0.0.0:28090 CHECK_segment1=${var.gpdb_segment1_ip}:1025 CHECK_segment1=${var.gpdb_segment1_ip}:10000 CHECK_segment1=${var.gpdb_segment1_ip}:20000 CHECK_segment2=${var.gpdb_segment2_ip}:1025 CHECK_segment2=${var.gpdb_segment2_ip}:10000 CHECK_segment2=${var.gpdb_segment2_ip}:20000 CHECK_segment3=${var.gpdb_segment3_ip}:1025 CHECK_segment3=${var.gpdb_segment3_ip}:10000 CHECK_segment3=${var.gpdb_segment3_ip}:20000 CHECK_segment4=${var.gpdb_segment4_ip}:1025 CHECK_segment4=${var.gpdb_segment4_ip}:10000 CHECK_segment4=${var.gpdb_segment4_ip}:20000 CHECK_segment5=${var.gpdb_segment5_ip}:1025 CHECK_segment5=${var.gpdb_segment5_ip}:10000 CHECK_segment5=${var.gpdb_segment5_ip}:20000"
-  security_groups = ["${aws_security_group.master_sg.id}"]
-  private_ip      = "${var.gpdb_master2_ip}"
-
-  tags = {
-    Name = "gpdb-master2-${local.naming_suffix}"
-  }
-}
-
-module "gpdb_segment1" {
-  source          = "github.com/UKHomeOffice/connectivity-tester-tf"
-  subnet_id       = "${aws_subnet.dq_database.id}"
-  user_data       = "LISTEN_tcp=0.0.0.0:1025 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000 CHECK_master1=${var.gpdb_master1_ip}:9000 CHECK_master2=${var.gpdb_master2_ip}:9000"
-  security_groups = ["${aws_security_group.segment_sg.id}"]
-  private_ip      = "${var.gpdb_segment1_ip}"
-
-  tags = {
-    Name = "gpdb-segment1-${local.naming_suffix}"
-  }
-}
-
-module "gpdb_segment2" {
-  source          = "github.com/UKHomeOffice/connectivity-tester-tf"
-  subnet_id       = "${aws_subnet.dq_database.id}"
-  user_data       = "LISTEN_tcp=0.0.0.0:1025 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000 CHECK_master1=${var.gpdb_master1_ip}:9000 CHECK_master2=${var.gpdb_master2_ip}:9000"
-  security_groups = ["${aws_security_group.segment_sg.id}"]
-  private_ip      = "${var.gpdb_segment2_ip}"
-
-  tags = {
-    Name = "gpdb-segment2-${local.naming_suffix}"
-  }
-}
-
-module "gpdb_segment3" {
-  source          = "github.com/UKHomeOffice/connectivity-tester-tf"
-  subnet_id       = "${aws_subnet.dq_database.id}"
-  user_data       = "LISTEN_tcp=0.0.0.0:1025 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000 CHECK_master1=${var.gpdb_master1_ip}:9000 CHECK_master2=${var.gpdb_master2_ip}:9000"
-  security_groups = ["${aws_security_group.segment_sg.id}"]
-  private_ip      = "${var.gpdb_segment3_ip}"
-
-  tags = {
-    Name = "gpdb-segment3-${local.naming_suffix}"
-  }
-}
-
-module "gpdb_segment4" {
-  source          = "github.com/UKHomeOffice/connectivity-tester-tf"
-  subnet_id       = "${aws_subnet.dq_database.id}"
-  user_data       = "LISTEN_tcp=0.0.0.0:1025 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000 CHECK_master1=${var.gpdb_master1_ip}:9000 CHECK_master2=${var.gpdb_master2_ip}:9000"
-  security_groups = ["${aws_security_group.segment_sg.id}"]
-  private_ip      = "${var.gpdb_segment4_ip}"
-
-  tags = {
-    Name = "gpdb-segment4-${local.naming_suffix}"
-  }
-}
-
-module "gpdb_segment5" {
-  source          = "github.com/UKHomeOffice/connectivity-tester-tf"
-  subnet_id       = "${aws_subnet.dq_database.id}"
-  user_data       = "LISTEN_tcp=0.0.0.0:1025 LISTEN_tcp2=0.0.0.0:10000 LISTEN_tcp3=0.0.0.0:20000 CHECK_master1=${var.gpdb_master1_ip}:9000 CHECK_master2=${var.gpdb_master2_ip}:9000"
-  security_groups = ["${aws_security_group.segment_sg.id}"]
-  private_ip      = "${var.gpdb_segment5_ip}"
-
-  tags = {
-    Name = "gpdb-segment5-${local.naming_suffix}"
-  }
+resource "aws_placement_group" "greenplum" {
+  name     = "greenplum-${random_string.aws_placement_group.result}"
+  strategy = "cluster"
 }
 
 resource "aws_security_group" "master_sg" {
@@ -160,10 +90,13 @@ resource "aws_security_group" "master_sg" {
   }
 
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+
+    cidr_blocks = [
+      "0.0.0.0/0",
+    ]
   }
 }
 
@@ -175,30 +108,42 @@ resource "aws_security_group" "segment_sg" {
   }
 
   ingress {
-    from_port   = 1025
-    to_port     = 65535
-    protocol    = "tcp"
-    cidr_blocks = ["${var.dq_database_cidr_block}"]
+    from_port = 1025
+    to_port   = 65535
+    protocol  = "tcp"
+
+    cidr_blocks = [
+      "${var.dq_database_cidr_block}",
+    ]
   }
 
   ingress {
-    from_port   = 1025
-    to_port     = 65535
-    protocol    = "udp"
-    cidr_blocks = ["${var.dq_database_cidr_block}"]
+    from_port = 1025
+    to_port   = 65535
+    protocol  = "udp"
+
+    cidr_blocks = [
+      "${var.dq_database_cidr_block}",
+    ]
   }
 
   ingress {
-    from_port   = 8
-    to_port     = -1
-    protocol    = "icmp"
-    cidr_blocks = ["${var.dq_database_cidr_block}"]
+    from_port = 8
+    to_port   = -1
+    protocol  = "icmp"
+
+    cidr_blocks = [
+      "${var.dq_database_cidr_block}",
+    ]
   }
 
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+
+    cidr_blocks = [
+      "0.0.0.0/0",
+    ]
   }
 }
