@@ -77,11 +77,6 @@ resource "aws_instance" "segment_2" {
   }
 }
 
-resource "aws_eip" "segment_2" {
-  vpc               = true
-  network_interface = "${aws_network_interface.segment_2_0.id}"
-}
-
 resource "aws_network_interface" "segment_2_0" {
   subnet_id = "${aws_subnet.subnets.0.id}"
 
