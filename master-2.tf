@@ -62,11 +62,6 @@ resource "aws_instance" "master_2" {
   }
 }
 
-resource "aws_eip" "master_2" {
-  vpc               = true
-  network_interface = "${aws_network_interface.master_2_0.id}"
-}
-
 resource "aws_network_interface" "master_2_0" {
   subnet_id = "${aws_subnet.subnets.0.id}"
 
