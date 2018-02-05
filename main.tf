@@ -93,6 +93,16 @@ resource "aws_security_group" "master_sg" {
     ]
   }
 
+  ingress {
+    from_port = 8
+    to_port   = -1
+    protocol  = "icmp"
+
+    cidr_blocks = [
+      "${aws_subnet.subnets.*.cidr_block}",
+    ]
+  }
+
   egress {
     from_port = 0
     to_port   = 0
