@@ -18,7 +18,7 @@ resource "aws_subnet" "subnets" {
 }
 
 resource "aws_route_table_association" "dq_database_rt_association" {
-  subnet_id      = "${aws_subnet.subnets.0.id}"
+  subnet_id      = "${aws_subnet.subnets.*.id}"
   route_table_id = "${var.route_table_id}"
 }
 
@@ -131,6 +131,16 @@ resource "aws_security_group" "segment_sg" {
     from_port = 8
     to_port   = -1
     protocol  = "icmp"
+
+    cidr_blocks = [
+      "${aws_subnet.subnets.*.cidr_block}",
+    ]
+  }
+
+  ingress {
+    from_port = 22
+    to_port   = 22
+    protocol  = "tcp"
 
     cidr_blocks = [
       "${aws_subnet.subnets.*.cidr_block}",
