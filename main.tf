@@ -18,8 +18,9 @@ resource "aws_subnet" "subnets" {
 }
 
 resource "aws_route_table_association" "dq_database_rt_association" {
-  subnet_id      = "${aws_subnet.subnets.*.id}"
+  subnet_id      = "${element(aws_subnet.subnets.*.id, count.index)}"
   route_table_id = "${var.route_table_id}"
+  count          = 4
 }
 
 resource "random_string" "aws_placement_group" {
