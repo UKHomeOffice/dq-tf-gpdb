@@ -77,6 +77,7 @@ resource "aws_security_group" "master_sg" {
     cidr_blocks = [
       "${var.opssubnet_cidr_block}",
       "${var.peering_cidr_block}",
+      "${var.data_pipe_apps_cidr_block}",
       "${aws_subnet.subnets.*.cidr_block}",
     ]
   }
