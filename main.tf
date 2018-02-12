@@ -95,6 +95,26 @@ resource "aws_security_group" "master_sg" {
   }
 
   ingress {
+    from_port = 1025
+    to_port   = 65535
+    protocol  = "tcp"
+
+    cidr_blocks = [
+      "${aws_subnet.subnets.*.cidr_block}",
+    ]
+  }
+
+  ingress {
+    from_port = 1025
+    to_port   = 65535
+    protocol  = "udp"
+
+    cidr_blocks = [
+      "${aws_subnet.subnets.*.cidr_block}",
+    ]
+  }
+
+  ingress {
     from_port = 8
     to_port   = -1
     protocol  = "icmp"
