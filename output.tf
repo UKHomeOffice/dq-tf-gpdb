@@ -17,3 +17,7 @@ output "gpdb_master1_ip" {
 output "gpdb_master2_ip" {
   value = "${var.gpdb_master2_ip}"
 }
+
+output "dq_database_cidr_block" {
+  value = "${aws_subnet.subnets.0.cidr_block}"
+}
