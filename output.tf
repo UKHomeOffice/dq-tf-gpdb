@@ -19,5 +19,5 @@ output "gpdb_master2_ip" {
 }
 
 output "dq_database_cidr_block" {
-  value = "${aws_subnet.subnets.0.cidr_block}"
+  value = ["${aws_subnet.subnets.*.cidr_block}"]
 }
