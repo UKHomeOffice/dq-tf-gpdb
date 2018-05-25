@@ -21,6 +21,7 @@ resource "aws_instance" "segment_3" {
   placement_group      = "${aws_placement_group.greenplum.id}"
   iam_instance_profile = "${element(aws_iam_instance_profile.instance_profile.*.id, 4)}"
   user_data            = "instance_store_4"
+  monitoring           = true
 
   tags {
     Name = "segment-3-${var.naming_suffix}"
@@ -74,6 +75,14 @@ resource "aws_instance" "segment_3" {
   network_interface {
     device_index         = 3
     network_interface_id = "${aws_network_interface.segment_3_3.id}"
+  }
+
+  lifecycle {
+    prevent_destroy = true
+
+    ignore_changes = [
+      "key_name"
+    ]
   }
 }
 
