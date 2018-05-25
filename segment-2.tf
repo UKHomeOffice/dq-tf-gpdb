@@ -81,7 +81,7 @@ resource "aws_instance" "segment_2" {
     prevent_destroy = true
 
     ignore_changes = [
-      "key_name"
+      "key_name",
     ]
   }
 }
