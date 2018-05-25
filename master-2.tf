@@ -67,6 +67,7 @@ resource "aws_instance" "master_2" {
 
     ignore_changes = [
       "key_name",
+      "ami",
     ]
   }
 }

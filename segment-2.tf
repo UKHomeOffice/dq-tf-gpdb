@@ -82,6 +82,7 @@ resource "aws_instance" "segment_2" {
 
     ignore_changes = [
       "key_name",
+      "ami",
     ]
   }
 }
