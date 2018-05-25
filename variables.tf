@@ -53,3 +53,7 @@ variable "gpdb_segment5_ip" {
   default     = "10.1.2.25"
   description = "Mock private IP for segment hosts."
 }
+
+variable "key_name" {
+  default = "test_instance"
+}
