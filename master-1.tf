@@ -17,7 +17,7 @@ data "aws_ami" "master_1" {
 resource "aws_instance" "master_1" {
   ami                  = "${data.aws_ami.master_1.id}"
   instance_type        = "d2.xlarge"
-  key_name             = "cns"
+  key_name             = "${var.key_name}"
   placement_group      = "${aws_placement_group.greenplum.id}"
   iam_instance_profile = "${element(aws_iam_instance_profile.instance_profile.*.id, 0)}"
   user_data            = "instance_store_0"

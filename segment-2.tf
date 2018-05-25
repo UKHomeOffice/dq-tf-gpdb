@@ -17,7 +17,7 @@ data "aws_ami" "segment_2" {
 resource "aws_instance" "segment_2" {
   ami                  = "${data.aws_ami.segment_2.id}"
   instance_type        = "d2.2xlarge"
-  key_name             = "cns"
+  key_name             = "${var.key_name}"
   placement_group      = "${aws_placement_group.greenplum.id}"
   iam_instance_profile = "${element(aws_iam_instance_profile.instance_profile.*.id, 3)}"
   user_data            = "instance_store_3"
