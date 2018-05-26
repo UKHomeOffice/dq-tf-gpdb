@@ -5,7 +5,7 @@ data "aws_ami" "segment_1" {
     name = "name"
 
     values = [
-      "gp-segment-host-1*",
+      "dq-gpdb-base*",
     ]
   }
 
