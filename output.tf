@@ -21,3 +21,7 @@ output "gpdb_master2_ip" {
 output "dq_database_cidr_block" {
   value = ["${aws_subnet.subnets.*.cidr_block}"]
 }
+
+output "iam_roles" {
+  value = ["${aws_iam_role.iam_role.*.id}"]
+}
