@@ -8,6 +8,8 @@ variable "opssubnet_cidr_block" {}
 variable "peering_cidr_block" {}
 variable "az" {}
 variable "dq_database_cidr_block" {}
+variable "archive_bucket" {}
+variable "apps_buckets_kms_key" {}
 
 variable "naming_suffix" {
   default     = false
