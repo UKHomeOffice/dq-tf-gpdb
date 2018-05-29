@@ -38,7 +38,9 @@ class TestE2E(unittest.TestCase):
                 gpdb_segment4_ip              = "10.1.2.24"
                 gpdb_segment5_ip              = "10.1.2.25"
                 az                            = "eu-west-2a"
-                naming_suffix                = "apps-preprod-dq"
+                naming_suffix                 = "apps-preprod-dq"
+                archive_bucket                = "bucketname"
+                apps_buckets_kms_key          = "arn:aws:kms:::1234567890"
             }
         """
         self.result = Runner(self.snippet).result
